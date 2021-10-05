@@ -7,11 +7,11 @@ declare var jQuery:any;
 declare var $:any;
 
 @Component({
-  selector: 'app-venta-index',
-  templateUrl: './venta-index.component.html',
-  styleUrls: ['./venta-index.component.css']
+  selector: 'app-pais-index',
+  templateUrl: './pais-index.component.html',
+  styleUrls: ['./pais-index.component.css']
 })
-export class VentaIndexComponent implements OnInit {
+export class PaisIndexComponent implements OnInit {
 
   public pais:any;
   public listaPaises: any;

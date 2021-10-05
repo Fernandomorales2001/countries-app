@@ -1,21 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
-import { ClienteService } from 'src/app/services/cliente.service';
-import { Router } from '@angular/router';
-import { ProductoService } from 'src/app/services/producto.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { DetalleVenta } from "../../../models/DetalleVenta";
-import { Venta } from "../../../models/Venta";
-import { VentaService } from 'src/app/services/venta.service';
 import { FormService } from 'src/app/services/form.service';
 import { Departamento } from 'src/app/models/Departamento';
 
 @Component({
-  selector: 'app-venta-create',
-  templateUrl: './venta-create.component.html',
-  styleUrls: ['./venta-create.component.css']
+  selector: 'app-pais-create',
+  templateUrl: './pais-create.component.html',
+  styleUrls: ['./pais-create.component.css']
 })
-export class VentaCreateComponent implements OnInit {
+export class PaisCreateComponent implements OnInit {
 
   public pais:any;
   public listaPaises: any;
