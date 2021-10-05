@@ -1,0 +1,162 @@
+<div class="wrapper">
+    <app-sidebar style="background: white !important;"></app-sidebar>
+
+    <div class="main">
+        <nav class="navbar navbar-expand navbar-theme">
+            <a class="sidebar-toggle d-flex mr-2">
+                <i class="hamburger align-self-center"></i>
+            </a>
+        </nav>
+        <main class="content">
+            <div class="container-fluid">
+
+                <div class="header">
+                    <h1 class="header-title">
+                        Pais
+                    </h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a [routerLink]="['/dashboard']" >Dashboard</a></li>
+                            <li class="breadcrumb-item"><a>Paises</a></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-12" *ngIf="success_message">
+                        <div class="alert alert-info alert-dismissible" role="alert">
+                            <div class="alert-message">
+                                {{success_message}}
+                            </div>
+
+                            <button type="button" class="close" (click)="close_alert()" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h5 class="card-title">Filtro de departamentos</h5>
+                                        <form #searchForm="ngForm" (ngSubmit)="search(searchForm)">
+                                            <div class="input-group date" id="datetimepicker-minimum" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input" #filtro="ngModel" name="filtro" [(ngModel)]="filtroText">
+                                                <div class="input-group-append">
+                                       
+                                                    <button type="submit" class="input-group-text"><i class="fa fa-search"></i></button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h5 class="card-title">Opciones de departamentos</h5>
+                                        <div class="btn-group">
+                                            
+                                            <button type="button" class="btn mb-1 btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Opciones
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" [routerLink]="['/venta/registrar']">Registrar Departamento</a>
+                                                <a class="dropdown-item" data-toggle="modal" data-target="#modal-data-pais">Ver paises</a>         
+                                                <a class="dropdown-item" data-toggle="modal" data-target="#modal-save-pais">Registrar Categoria</a>                                  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>ID PAIS</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let item of listaDepartamentos | paginate: { itemsPerPage: 15, currentPage: p }; let idx = index">
+                                        <td>{{item.nombre}}</td>
+                                        <td><b>$</b>{{item.idpais}}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn mb-1 btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-cog"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" [routerLink]="['/producto/editar/',item._id]" >Editar departamento</a>
+                                                   
+                                                    <a class="dropdown-item" (click)="eliminar(item._id)">Eliminar departamento</a>
+                                                </div>
+                                            </div>
+                                        </td>                            
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+
+
+                 <!--MODAL AGREGAR PAIS-->
+                 <div class="modal fade" id="modal-save-pais" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+                    <form #paisForm="ngForm" (ngSubmit)="save_pais(paisForm)">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Registrar Pais</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body m-3">
+                                   <div class="form-group">
+                                       <input type="text" class="form-control" placeholder="Nombre del pais" #nombre_pa="ngModel" name="nombre_pa" [(ngModel)]="nombre_paText" required>
+                                   </div>
+                                   <div class="form-group">
+                                        <textarea class="form-control" placeholder="Region perteneciente" #region_pa="ngModel" name="region_pa" [(ngModel)]="region_paText" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Registrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--MODAL AGREGAR PAIS-->
+
+                <!--MODAL LISTAR PAIS-->
+                <div class="modal fade" id="modal-data-pais" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollablea" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Listado de Paises</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body m-3">
+                               <table class="table table-striped table-hover table-sm">
+                                <thead>
+                                    <th>Nombre</th>
+                                </thead>
+                                <tbody *ngFor="let item of listaPaises">
+                                    <td>{{item.nombre.toUpperCase()}}</td>
+                                </tbody>
+                               </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--MODAL LISTAR PAIS-->
+
+               
+            </div>
+        </main>
+       
+    </div>
+</div>
